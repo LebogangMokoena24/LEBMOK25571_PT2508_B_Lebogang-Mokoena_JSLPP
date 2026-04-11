@@ -1,41 +1,70 @@
 /**
  * @module modalHandlers
- * Opens, closes, and handles interactions for both task modals.
+ * @description Manages open, close, and interaction logic for both modals.
  */
 
-import { addNewTask, updateTask, deleteTask } from "../tasks/taskManager.js";
+import {
+  addNewTask,
+  updateTask,
+  deleteTask,
+} from "../tasks/taskManager.js";
 
-/** Tracks which task is currently open in the edit modal */
+/** @type {number|null} */
 let currentTaskId = null;
 
 /**
- * Sets up the close button for the edit task modal.
+ * Safe helper to get element by ID.
+ *
+ * @param {string} id
+ * @returns {HTMLElement|null}
  */
-export function setupModalCloseHandler() {
-  const modal = document.getElementById("task-modal");
-  document.getElementById("close-modal-btn").addEventListener("click", () => modal.close());
+function getEl(id) {
+  return document.getElementById(id);
 }
 
 /**
- * Sets up the Add New Task modal open, close, and submit handlers.
+ * Sets up the close button on the edit task modal.
+ *
+ * @returns {void}
+ */
+export function setupModalCloseHandler() {
+  const modal = getEl("task-modal");
+  const closeBtn = getEl("close-modal-btn");
+
+  if (!modal || !closeBtn) return;
+
+  closeBtn.addEventListener("click", () => {
+    modal.close();
+  });
+}
+
+/**
+ * Sets up the Add New Task modal handlers.
+ *
+ * @returns {void}
  */
 export function setupNewTaskModalHandler() {
-  const dialog = document.getElementById("new-task-dialog");
-  const form = document.getElementById("new-task-modal-window");
-  const cancelBtn = document.getElementById("cancel-add-btn");
+  const dialog = getEl("new-task-dialog");
+  const form = getEl("new-task-modal-window");
+  const cancelBtn = getEl("cancel-add-btn");
+  const addBtn = getEl("add-new-task-btn");
 
-  document.getElementById("add-new-task-btn").addEventListener("click", () => dialog.showModal());
+  if (!dialog || !form || !cancelBtn || !addBtn) return;
+
+  addBtn.addEventListener("click", () => dialog.showModal());
 
   cancelBtn.addEventListener("click", () => {
     dialog.close();
     form.reset();
   });
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
     if (form.checkValidity()) {
       addNewTask();
       dialog.close();
+      form.reset();
     } else {
       form.reportValidity();
     }
@@ -43,41 +72,70 @@ export function setupNewTaskModalHandler() {
 }
 
 /**
- * Sets up Save Changes and Delete Task buttons in the edit modal.
+ * Sets up Save Changes and Delete Task handlers.
+ *
+ * @returns {void}
  */
 export function setupTaskModalActions() {
-  document.getElementById("save-task-btn").addEventListener("click", () => {
+  const saveBtn = getEl("save-task-btn");
+  const deleteBtn = getEl("delete-task-btn");
+  const modal = getEl("task-modal");
+
+  if (!saveBtn || !deleteBtn || !modal) return;
+
+  saveBtn.addEventListener("click", () => {
     if (currentTaskId === null) return;
-    const title = document.getElementById("task-title").value.trim();
-    const description = document.getElementById("task-desc").value.trim();
-    const status = document.getElementById("task-status").value;
-    const priority = document.getElementById("task-priority").value;
-    if (!title) return;
-    updateTask(currentTaskId, { title, description, status, priority });
-    document.getElementById("task-modal").close();
+
+    const title = getEl("task-title")?.value?.trim();
+    const description = getEl("task-desc")?.value?.trim();
+    const status = getEl("task-status")?.value;
+    const priority = getEl("task-priority")?.value;
+
+    if (!title) {
+      alert("Task title cannot be empty.");
+      return;
+    }
+
+    updateTask(currentTaskId, {
+      title,
+      description,
+      status,
+      priority,
+    });
+
+    currentTaskId = null;
+    modal.close();
   });
 
-  document.getElementById("delete-task-btn").addEventListener("click", () => {
+  deleteBtn.addEventListener("click", () => {
     if (currentTaskId === null) return;
-    const confirmed = confirm(
-      "Are you sure you want to delete this task? This action cannot be undone."
+
+    const confirmed = window.confirm(
+      "Delete this task? This cannot be undone."
     );
-    if (confirmed) {
-      deleteTask(currentTaskId);
-      document.getElementById("task-modal").close();
-    }
+
+    if (!confirmed) return;
+
+    deleteTask(currentTaskId);
+
+    currentTaskId = null;
+    modal.close();
   });
 }
 
 /**
- * Opens the edit modal pre-filled with the given task's data.
+ * Opens the edit modal pre-filled with task data.
+ *
  * @param {Object} task
+ * @returns {void}
  */
 export function openTaskModal(task) {
-  currentTaskId = task.id;
-  document.getElementById("task-title").value = task.title;
-  document.getElementById("task-desc").value = task.description || "";
-  document.getElementById("task-status").value = task.status;
-  document.getElementById("task-priority").value = task.priority || "low";
-  document.getElementById("task-modal").showModal();
+  currentTaskId = task?.id ?? null;
+
+  getEl("task-title").value = task?.title || "";
+  getEl("task-desc").value = task?.description || "";
+  getEl("task-status").value = task?.status || "todo";
+  getEl("task-priority").value = task?.priority || "low";
+
+  getEl("task-modal")?.showModal();
 }
