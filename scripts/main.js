@@ -1,9 +1,9 @@
 /**
  * @module main
- * Entry point — initialises the task board, fetches from API,
- * and wires up all UI modules.
+ * @description Application entry point for the Kanban Task Management app.
  */
 
+import { fetchTasksFromAPI } from "./api/fetchTasks.js";
 import { loadTasksFromStorage, saveTasksToStorage } from "./utils/localStorage.js";
 import { clearExistingTasks, renderTasks } from "./ui/render.js";
 import {
@@ -11,74 +11,56 @@ import {
   setupNewTaskModalHandler,
   setupTaskModalActions,
 } from "./ui/modalHandlers.js";
-import { setupSidebarToggle, setupThemeToggle } from "./ui/sidebar.js";
-import { setupMobileMenu } from "./ui/mobileMenu.js";
-
-const API_URL = "https://jsl-kanban-api.vercel.app/";
-
-/**
- * Fetches tasks from the remote API.
- * @returns {Promise<Array<Object>>}
- */
-async function fetchTasksFromAPI() {
-  const response = await fetch(API_URL);
-  if (!response.ok) throw new Error(`API error: ${response.status}`);
-  const data = await response.json();
-  return Array.isArray(data) ? data : data.tasks || [];
-}
+import { setupSidebarToggle, setupMobileMenu } from "./ui/sidebarManager.js";
+import { setupThemeToggle } from "./ui/theme.js";
+import { setLoadingVisible, setErrorVisible } from "./ui/status.js";
 
 /**
- * Shows or hides the loading message.
- * @param {boolean} visible
- */
-function setLoadingVisible(visible) {
-  document.getElementById("loading-message").style.display = visible ? "block" : "none";
-}
-
-/**
- * Shows or hides the error message.
- * @param {boolean} visible
- */
-function setErrorVisible(visible) {
-  document.getElementById("error-message").style.display = visible ? "block" : "none";
-}
-
-/**
- * Initialises the app: loads tasks, renders the board, and sets up all UI handlers.
+ * Initialises the Kanban board.
+ * Loads tasks from localStorage or fetches from API, then renders the board
+ * and wires up all UI event handlers.
+ *
+ * @async
+ * @returns {Promise<void>}
  */
 async function initTaskBoard() {
   setLoadingVisible(true);
   setErrorVisible(false);
 
-  let tasks = null;
-  const localTasks = loadTasksFromStorage();
+  let tasks = [];
+  const storedTasks = loadTasksFromStorage();
 
-  if (localTasks && localTasks.length > 0) {
-    tasks = localTasks;
-    setLoadingVisible(false);
+  if (Array.isArray(storedTasks) && storedTasks.length > 0) {
+    tasks = storedTasks;
   } else {
     try {
       const apiTasks = await fetchTasksFromAPI();
-      tasks = apiTasks.map((t) => ({ priority: "low", ...t }));
+
+      // Ensure every task has a priority
+      tasks = apiTasks.map((task) => ({
+        priority: task.priority || "low",
+        ...task,
+      }));
+
       saveTasksToStorage(tasks);
-      setLoadingVisible(false);
-    } catch (err) {
-      console.error("Failed to fetch tasks from API:", err);
-      setLoadingVisible(false);
+    } catch (error) {
+      console.error("Could not fetch tasks from API:", error);
       setErrorVisible(true);
-      tasks = [];
     }
   }
+
+  setLoadingVisible(false);
 
   clearExistingTasks();
   renderTasks(tasks);
 
+  // UI setup
   setupModalCloseHandler();
   setupNewTaskModalHandler();
   setupTaskModalActions();
   setupSidebarToggle();
-  setupThemeToggle();
   setupMobileMenu();
+  setupThemeToggle();
 }
 
 document.addEventListener("DOMContentLoaded", initTaskBoard);
