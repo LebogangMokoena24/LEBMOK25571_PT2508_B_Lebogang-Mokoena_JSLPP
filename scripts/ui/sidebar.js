@@ -14,12 +14,14 @@ import {
  * @param {string} theme - "dark" or "light"
  */
 function applyTheme(theme) {
-  document.body.classList.toggle("dark", theme === "dark");
+  const safeTheme = theme === "dark" ? "dark" : "light";
+
+  document.body.classList.toggle("dark", safeTheme === "dark");
 
   const logo = document.getElementById("logo");
   if (logo) {
     logo.src =
-      theme === "dark"
+      safeTheme === "dark"
         ? "./assets/logo-dark.svg"
         : "./assets/logo-light.svg";
   }
@@ -27,8 +29,8 @@ function applyTheme(theme) {
   const desktopToggle = document.getElementById("theme-toggle");
   const mobileToggle = document.getElementById("theme-toggle-mobile");
 
-  if (desktopToggle) desktopToggle.checked = theme === "dark";
-  if (mobileToggle) mobileToggle.checked = theme === "dark";
+  if (desktopToggle) desktopToggle.checked = safeTheme === "dark";
+  if (mobileToggle) mobileToggle.checked = safeTheme === "dark";
 }
 
 /**
