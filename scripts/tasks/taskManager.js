@@ -18,7 +18,7 @@ import { clearExistingTasks, renderTasks } from "../ui/render.js";
  */
 function generateId(tasks) {
   return Array.isArray(tasks) && tasks.length > 0
-    ? Math.max(...tasks.map((t) => t.id || 0)) + 1
+    ? Math.max(...tasks.map((t) => Number(t.id) || 0)) + 1
     : 1;
 }
 
@@ -38,16 +38,17 @@ function getSafeTasks() {
  * @returns {void}
  */
 export function addNewTask() {
-  const title = document.getElementById("title-input").value.trim();
-  const description = document.getElementById("desc-input").value.trim();
+  const titleInput = document.getElementById("title-input");
+  const descInput = document.getElementById("desc-input");
+  const statusSelect = document.getElementById("select-status");
+  const prioritySelect = document.getElementById("select-priority");
 
-  const status = document
-    .getElementById("select-status")
-    .value?.toLowerCase?.();
+  if (!titleInput || !statusSelect || !prioritySelect) return;
 
-  const priority = document
-    .getElementById("select-priority")
-    .value?.toLowerCase?.();
+  const title = titleInput.value.trim();
+  const description = descInput?.value.trim() || "";
+  const status = statusSelect.value?.toLowerCase?.() || "todo";
+  const priority = prioritySelect.value?.toLowerCase?.() || "low";
 
   if (!title) return;
 
@@ -57,8 +58,8 @@ export function addNewTask() {
     id: generateId(tasks),
     title,
     description,
-    status: status || "todo",
-    priority: priority || "low",
+    status,
+    priority,
     board: "Launch Career",
   };
 
@@ -68,10 +69,11 @@ export function addNewTask() {
   clearExistingTasks();
   renderTasks(updatedTasks);
 
-  document.getElementById("title-input").value = "";
-  document.getElementById("desc-input").value = "";
-  document.getElementById("select-status").value = "todo";
-  document.getElementById("select-priority").value = "high";
+  // Reset form
+  titleInput.value = "";
+  if (descInput) descInput.value = "";
+  statusSelect.value = "todo";
+  prioritySelect.value = "high";
 }
 
 /**
