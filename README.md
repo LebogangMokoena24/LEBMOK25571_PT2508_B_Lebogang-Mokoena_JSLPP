@@ -61,7 +61,7 @@ The app loads initial tasks from a remote API and stores them in local storage s
 
 - HTML5
 - CSS3
-- Vanilla JavaScript (ES Modules)
+- JavaScript (ES Modules)
 - LocalStorage (data persistence)
 - REST API (initial data fetching)
 - Netlify (deployment)
