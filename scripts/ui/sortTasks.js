@@ -16,17 +16,9 @@ const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 };
  * @returns {Array<Object>} A new sorted array (original is not mutated).
  */
 export function sortTasksByPriority(tasks) {
-  const safeTasks = Array.isArray(tasks) ? tasks : [];
-
-  return [...safeTasks].sort((taskA, taskB) => {
-    const priorityA =
-      PRIORITY_ORDER[taskA?.priority?.toLowerCase?.()] ??
-      PRIORITY_ORDER.low;
-
-    const priorityB =
-      PRIORITY_ORDER[taskB?.priority?.toLowerCase?.()] ??
-      PRIORITY_ORDER.low;
-
+  return [...tasks].sort((taskA, taskB) => {
+    const priorityA = PRIORITY_ORDER[taskA.priority] ?? PRIORITY_ORDER.low;
+    const priorityB = PRIORITY_ORDER[taskB.priority] ?? PRIORITY_ORDER.low;
     return priorityA - priorityB;
   });
 }
