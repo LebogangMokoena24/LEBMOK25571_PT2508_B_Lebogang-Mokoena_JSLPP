@@ -50,7 +50,11 @@ export function createTaskElement(task) {
   taskDiv.appendChild(titleSpan);
   taskDiv.appendChild(badge);
 
-  taskDiv.addEventListener("click", () => openTaskModal(task));
+  taskDiv.addEventListener("click", () => {
+    if (task && typeof task === "object") {
+      openTaskModal(task);
+    }
+  });
 
   return taskDiv;
 }
