@@ -608,11 +608,18 @@ dialog::backdrop {
   background-color: var(--color-red-hover);
 }
 
+/* ========================
+   Add New Task Modal — FIXED
+======================== */
 #new-task-dialog {
   width: 90%;
   max-width: 480px;
   border-radius: 8px;
   background: transparent;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-window {
