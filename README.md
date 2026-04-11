@@ -4,7 +4,7 @@ LEBMOK25571_PT2508_B_Lebogang-Mokoena_JSLPP
 
 **Netlify Link :**  https://lebogang-mokoena-kanbanapp-lebmok2557.netlify.app/
 
-**Presentation Link:**  
+**Presentation Link:**  https://www.loom.com/share/f00972155b7646528ca4c49bcc74d1d0
 
 ---
 
