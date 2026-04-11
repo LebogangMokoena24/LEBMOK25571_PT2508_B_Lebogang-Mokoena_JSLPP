@@ -59,7 +59,7 @@ export function renderTasks(tasks = []) {
     if (container) {
       container.appendChild(createTaskElement(task));
     } else {
-      console.warn("Task skipped بسبب invalid status:", task);
+      console.warn("Task skipped due to invalid status:", task);
     }
   });
 
