@@ -11,6 +11,8 @@ export function setupMobileMenu() {
   const mobileLogo = document.getElementById("mobile-logo");
   const chevron = document.getElementById("mobile-chevron");
 
+  if (!overlay || !mobileLogo || !chevron) return;
+
   function openMenu() {
     overlay.classList.add("open");
     chevron.classList.add("open");
