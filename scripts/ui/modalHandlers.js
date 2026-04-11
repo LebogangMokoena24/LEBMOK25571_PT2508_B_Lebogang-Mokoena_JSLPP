@@ -24,8 +24,6 @@ function getEl(id) {
 
 /**
  * Sets up the close button on the edit task modal.
- *
- * @returns {void}
  */
 export function setupModalCloseHandler() {
   const modal = getEl("task-modal");
@@ -33,15 +31,11 @@ export function setupModalCloseHandler() {
 
   if (!modal || !closeBtn) return;
 
-  closeBtn.addEventListener("click", () => {
-    modal.close();
-  });
+  closeBtn.addEventListener("click", () => modal.close());
 }
 
 /**
  * Sets up the Add New Task modal handlers.
- *
- * @returns {void}
  */
 export function setupNewTaskModalHandler() {
   const dialog = getEl("new-task-dialog");
@@ -73,8 +67,6 @@ export function setupNewTaskModalHandler() {
 
 /**
  * Sets up Save Changes and Delete Task handlers.
- *
- * @returns {void}
  */
 export function setupTaskModalActions() {
   const saveBtn = getEl("save-task-btn");
@@ -125,17 +117,24 @@ export function setupTaskModalActions() {
 
 /**
  * Opens the edit modal pre-filled with task data.
- *
- * @param {Object} task
- * @returns {void}
  */
 export function openTaskModal(task) {
-  currentTaskId = task?.id ?? null;
+  if (!task) return;
 
-  getEl("task-title").value = task?.title || "";
-  getEl("task-desc").value = task?.description || "";
-  getEl("task-status").value = task?.status || "todo";
-  getEl("task-priority").value = task?.priority || "low";
+  currentTaskId = task.id ?? null;
 
-  getEl("task-modal")?.showModal();
+  const titleEl = getEl("task-title");
+  const descEl = getEl("task-desc");
+  const statusEl = getEl("task-status");
+  const priorityEl = getEl("task-priority");
+  const modal = getEl("task-modal");
+
+  if (!titleEl || !descEl || !statusEl || !priorityEl || !modal) return;
+
+  titleEl.value = task.title || "";
+  descEl.value = task.description || "";
+  statusEl.value = task.status || "todo";
+  priorityEl.value = task.priority || "low";
+
+  modal.showModal();
 }
