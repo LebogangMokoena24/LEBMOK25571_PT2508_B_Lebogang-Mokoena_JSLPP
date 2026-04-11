@@ -14,72 +14,126 @@
   </head>
 
   <body>
-    <!-- Navigation Sidebar -->
+    <!-- =============================================
+         SIDEBAR: Logo, boards, theme toggle, hide btn
+    ============================================== -->
     <nav class="side-bar" id="side-bar-div">
+      <!-- Logo -->
       <div id="side-logo-div">
         <img id="logo" src="./assets/logo-light.svg" alt="Kanban logo" />
       </div>
 
+      <!-- Board Navigation Links -->
       <div class="boards-nav-links-div" id="boards-nav-links-div">
         <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
-        <button class="board-btn">Launch Career</button>
+        <button class="board-btn active-board-btn" id="board-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect width="1" height="16" fill="currentColor" />
+            <rect x="3" width="1" height="16" fill="currentColor" />
+            <rect x="6" y="5" width="10" height="2" fill="currentColor" />
+            <rect x="6" y="10" width="10" height="1" fill="currentColor" />
+          </svg>
+          Launch Career
+        </button>
       </div>
 
+      <!-- Sidebar Bottom: Theme Toggle + Hide Button -->
       <div class="sidebar-bottom">
         <div class="theme-toggle-div" id="theme-toggle-div">
-          <img src="./assets/icon-light-theme.svg" alt="light mode" class="theme-icon" />
-          <label class="switch">
+          <img
+            src="./assets/icon-light-theme.svg"
+            alt="light mode icon"
+            class="theme-icon"
+          />
+          <label class="switch" aria-label="Toggle dark mode">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider round"></span>
           </label>
-          <img src="./assets/icon-dark-theme.svg" alt="dark mode" class="theme-icon" />
+          <img
+            src="./assets/icon-dark-theme.svg"
+            alt="dark mode icon"
+            class="theme-icon"
+          />
         </div>
+
         <button class="hide-sidebar-btn" id="hide-sidebar-btn">
-          <img src="./assets/icon-hide-sidebar.svg" alt="hide sidebar" />
+          <img src="./assets/icon-hide-sidebar.svg" alt="" aria-hidden="true" />
           <span>Hide Sidebar</span>
         </button>
       </div>
     </nav>
 
-    <!-- Show Sidebar Button (visible when sidebar is hidden) -->
-    <button class="show-sidebar-btn" id="show-sidebar-btn" aria-label="Show Sidebar">
-      <img src="./assets/icon-show-sidebar.svg" alt="show sidebar" />
+    <!-- Show Sidebar Button (desktop only) -->
+    <button
+      class="show-sidebar-btn"
+      id="show-sidebar-btn"
+      aria-label="Show Sidebar"
+    >
+      <img src="./assets/icon-show-sidebar.svg" alt="show sidebar icon" />
     </button>
 
-    <!-- Main Layout -->
+    <!-- =============================================
+         MAIN LAYOUT: Header + Board Columns
+    ============================================== -->
     <div id="layout">
-      <header id="header" class="sticky-header">
+      <!-- Header -->
+      <header id="header">
         <div class="header-name-div">
-          <img src="./assets/favicon.svg" alt="logo-mobile" class="logo-mobile" id="mobile-logo" />
-          <h2 class="header-board-name" id="header-board-name">Launch Career</h2>
+          <img
+            src="./assets/favicon.svg"
+            alt="Kanban logo"
+            class="logo-mobile"
+            id="mobile-logo"
+          />
+          <h2 class="header-board-name" id="header-board-name">
+            Launch Career
+          </h2>
           <span class="mobile-chevron" id="mobile-chevron">&#9660;</span>
         </div>
-        <button id="add-new-task-btn" class="primary-btn">+ Add New Task</button>
+
+        <button id="add-new-task-btn" class="primary-btn">
+          + Add New Task
+        </button>
       </header>
 
-      <div id="loading-message" class="loading-message">Loading tasks...</div>
-      <div id="error-message" class="error-message" style="display:none;">
-        Failed to load tasks. Using locally stored data.
+      <!-- Loading and Error States -->
+      <div id="loading-message" class="loading-message">
+        Loading tasks...
+      </div>
+      <div id="error-message" class="error-message" style="display: none">
+        ⚠️ Failed to load tasks from server. Showing locally stored data.
       </div>
 
+      <!-- Board Columns -->
       <div class="container">
         <main class="card-column-main">
+          <!-- TODO Column -->
           <div class="column-div" data-status="todo">
-            <div id="todo-head-div" class="column-head-div">
+            <div class="column-head-div">
               <span class="dot" id="todo-dot"></span>
               <h4 id="toDoText" class="columnHeader">TODO (0)</h4>
             </div>
             <div class="tasks-container" id="todo-tasks"></div>
           </div>
+
+          <!-- DOING Column -->
           <div class="column-div" data-status="doing">
-            <div id="doing-head-div" class="column-head-div">
+            <div class="column-head-div">
               <span class="dot" id="doing-dot"></span>
               <h4 id="doingText" class="columnHeader">DOING (0)</h4>
             </div>
             <div class="tasks-container" id="doing-tasks"></div>
           </div>
+
+          <!-- DONE Column -->
           <div class="column-div" data-status="done">
-            <div id="done-head-div" class="column-head-div">
+            <div class="column-head-div">
               <span class="dot" id="done-dot"></span>
               <h4 id="doneText" class="columnHeader">DONE (0)</h4>
             </div>
@@ -89,85 +143,145 @@
       </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- =============================================
+         MOBILE MENU OVERLAY
+    ============================================== -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay">
       <div class="mobile-menu" id="mobile-menu">
-        <h4 class="mobile-menu-heading">ALL BOARDS (1)</h4>
-        <button class="board-btn mobile-board-btn">Launch Career</button>
+        <div class="mobile-menu-header">
+          <h4 class="mobile-menu-heading">ALL BOARDS (1)</h4>
+          <button class="mobile-close-btn" id="mobile-close-btn">&times;</button>
+        </div>
+        <button class="board-btn active-board-btn mobile-board-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect width="1" height="16" fill="currentColor" />
+            <rect x="3" width="1" height="16" fill="currentColor" />
+            <rect x="6" y="5" width="10" height="2" fill="currentColor" />
+            <rect x="6" y="10" width="10" height="1" fill="currentColor" />
+          </svg>
+          Launch Career
+        </button>
         <div class="theme-toggle-div mobile-theme-toggle">
-          <img src="./assets/icon-light-theme.svg" alt="light mode" class="theme-icon" />
-          <label class="switch">
+          <img
+            src="./assets/icon-light-theme.svg"
+            alt="light mode icon"
+            class="theme-icon"
+          />
+          <label class="switch" aria-label="Toggle dark mode">
             <input type="checkbox" id="theme-toggle-mobile" />
             <span class="slider round"></span>
           </label>
-          <img src="./assets/icon-dark-theme.svg" alt="dark mode" class="theme-icon" />
+          <img
+            src="./assets/icon-dark-theme.svg"
+            alt="dark mode icon"
+            class="theme-icon"
+          />
         </div>
       </div>
     </div>
 
-    <!-- Edit Task Modal -->
+    <!-- =============================================
+         EDIT TASK MODAL
+    ============================================== -->
     <dialog id="task-modal">
       <div id="task-modal-content">
         <div class="modal-header">
           <h3 id="task-modal-heading">Task</h3>
-          <button type="button" class="close-btn" id="close-modal-btn">&times;</button>
+          <button type="button" class="close-btn" id="close-modal-btn">
+            &times;
+          </button>
         </div>
+
         <label for="task-title">Title</label>
         <input type="text" id="task-title" name="title" required />
+
         <label for="task-desc">Description</label>
         <textarea id="task-desc" name="description" rows="4"></textarea>
+
         <label for="task-status">Status</label>
         <select id="task-status" name="status">
           <option value="todo">todo</option>
           <option value="doing">doing</option>
           <option value="done">done</option>
         </select>
+
         <label for="task-priority">Priority</label>
         <select id="task-priority" name="priority">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
+
         <div class="button-group">
-          <button type="button" class="submit-btn" id="save-task-btn">Save Changes</button>
-          <button type="button" class="delete-btn" id="delete-task-btn">Delete Task</button>
+          <button type="button" class="submit-btn" id="save-task-btn">
+            Save Changes
+          </button>
+          <button type="button" class="delete-btn" id="delete-task-btn">
+            Delete Task
+          </button>
         </div>
       </div>
     </dialog>
 
-    <!-- Add New Task Modal -->
-    <dialog class="modal-overlay" id="new-task-dialog">
+    <!-- =============================================
+         ADD NEW TASK MODAL
+    ============================================== -->
+    <dialog id="new-task-dialog">
       <form class="modal-window" id="new-task-modal-window">
         <div class="modal-header">
           <h3 class="modal-title">Add New Task</h3>
           <span class="close-btn" id="cancel-add-btn">&times;</span>
         </div>
+
         <div class="input-div">
           <label class="label-modal-window" for="title-input">Title</label>
-          <input type="text" class="modal-input" id="title-input" placeholder="e.g. Take chilled break" required />
+          <input
+            type="text"
+            id="title-input"
+            placeholder="e.g. Take chilled break"
+            required
+          />
         </div>
+
         <div class="input-div">
           <label class="label-modal-window" for="desc-input">Description</label>
-          <textarea name="description" id="desc-input" placeholder="Take a breather and come back refreshed"></textarea>
+          <textarea
+            id="desc-input"
+            placeholder="Take a breather and come back refreshed"
+          ></textarea>
         </div>
+
         <div class="input-div">
           <label class="label-modal-window" for="select-status">Status</label>
-          <select name="status" id="select-status" required>
+          <select id="select-status" required>
             <option value="todo">todo</option>
             <option value="doing">doing</option>
             <option value="done">done</option>
           </select>
         </div>
+
         <div class="input-div">
           <label class="label-modal-window" for="select-priority">Priority</label>
-          <select name="priority" id="select-priority">
+          <select id="select-priority">
             <option value="high">High</option>
             <option value="medium">Medium</option>
             <option value="low">Low</option>
           </select>
         </div>
+
         <div class="button-group">
-          <input type="submit" class="submit-btn" id="create-task-btn" value="Create Task" />
+          <input
+            type="submit"
+            class="submit-btn"
+            id="create-task-btn"
+            value="Create Task"
+          />
         </div>
       </form>
     </dialog>
