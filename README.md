@@ -2,7 +2,7 @@ LEBMOK25571_PT2508_B_Lebogang-Mokoena_JSLPP
 
 # Kanban Task Management App
 
-**Netlify Link :**  
+**Netlify Link :**  https://lebogang-mokoena-kanbanapp-lebmok2557.netlify.app/
 **Presentation Link:**  
 
 ---
