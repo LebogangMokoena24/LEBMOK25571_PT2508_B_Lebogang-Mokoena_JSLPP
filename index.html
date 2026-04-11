@@ -24,16 +24,9 @@
         <img id="logo" src="./assets/logo-light.svg" alt="Kanban logo" />
       </div>
 
-      <div class="boards-nav-links-div" id="boards-nav-links-div">
-        <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
-
-        <button class="board-btn active-board-btn" id="board-btn">
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-            <rect width="1" height="16" fill="currentColor" />
-            <rect x="3" width="1" height="16" fill="currentColor" />
-            <rect x="6" y="5" width="10" height="2" fill="currentColor" />
-            <rect x="6" y="10" width="10" height="1" fill="currentColor" />
-          </svg>
+      <div class="boards-nav-links-div">
+        <h4>ALL BOARDS (1)</h4>
+        <button class="board-btn active-board-btn">
           Launch Career
         </button>
       </div>
@@ -41,7 +34,7 @@
       <div class="sidebar-bottom">
         <div class="theme-toggle-div">
           <img src="./assets/icon-light-theme.svg" alt="light mode icon" />
-          <label class="switch" aria-label="Toggle dark mode">
+          <label class="switch">
             <input type="checkbox" id="theme-toggle" />
             <span class="slider round"></span>
           </label>
@@ -49,46 +42,29 @@
         </div>
 
         <button class="hide-sidebar-btn" id="hide-sidebar-btn">
-          <img src="./assets/icon-hide-sidebar.svg" alt="" aria-hidden="true" />
-          <span>Hide Sidebar</span>
+          Hide Sidebar
         </button>
       </div>
     </nav>
 
     <!-- SHOW SIDEBAR BUTTON -->
-    <button
-      class="show-sidebar-btn"
-      id="show-sidebar-btn"
-      aria-label="Show Sidebar"
-    >
-      <img src="./assets/icon-show-sidebar.svg" alt="" />
-    </button>
+    <button id="show-sidebar-btn" class="show-sidebar-btn"></button>
 
-    <!-- MAIN LAYOUT -->
+    <!-- MAIN -->
     <div id="layout">
-      <header id="header">
+      <header>
         <div class="header-name-div">
           <img
             src="./assets/favicon.svg"
-            alt="Kanban logo"
             class="logo-mobile"
             id="mobile-logo"
+            alt="logo"
           />
-
-          <h2 id="header-board-name">Launch Career</h2>
-
-          <span
-            class="mobile-chevron"
-            id="mobile-chevron"
-            aria-label="Open mobile menu"
-          >
-            &#9660;
-          </span>
+          <h2>Launch Career</h2>
+          <span id="mobile-chevron">&#9660;</span>
         </div>
 
-        <button id="add-new-task-btn" class="primary-btn">
-          + Add New Task
-        </button>
+        <button id="add-new-task-btn">+ Add New Task</button>
       </header>
 
       <!-- STATES -->
@@ -96,13 +72,8 @@
         Loading tasks...
       </div>
 
-      <div
-        id="error-message"
-        class="error-message"
-        style="display: none"
-        role="alert"
-      >
-        ⚠️ Failed to load tasks from server.
+      <div id="error-message" class="error-message" style="display: none">
+        Failed to load tasks.
       </div>
 
       <!-- BOARD -->
@@ -110,24 +81,24 @@
         <main class="card-column-main">
           <div class="column-div" data-status="todo">
             <div class="column-head-div">
-              <span class="dot"></span>
-              <h4>TODO (0)</h4>
+              <span class="dot" id="todo-dot"></span>
+              <h4 id="toDoText">TODO (0)</h4>
             </div>
             <div class="tasks-container" id="todo-tasks"></div>
           </div>
 
           <div class="column-div" data-status="doing">
             <div class="column-head-div">
-              <span class="dot"></span>
-              <h4>DOING (0)</h4>
+              <span class="dot" id="doing-dot"></span>
+              <h4 id="doingText">DOING (0)</h4>
             </div>
             <div class="tasks-container" id="doing-tasks"></div>
           </div>
 
           <div class="column-div" data-status="done">
             <div class="column-head-div">
-              <span class="dot"></span>
-              <h4>DONE (0)</h4>
+              <span class="dot" id="done-dot"></span>
+              <h4 id="doneText">DONE (0)</h4>
             </div>
             <div class="tasks-container" id="done-tasks"></div>
           </div>
@@ -136,33 +107,19 @@
     </div>
 
     <!-- MOBILE MENU -->
-    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
       <div class="mobile-menu">
         <div class="mobile-menu-header">
           <h4>ALL BOARDS (1)</h4>
-
-          <!-- FIX: now properly usable -->
-          <button
-            class="mobile-close-btn"
-            id="mobile-close-btn"
-            aria-label="Close menu"
-            type="button"
-          >
-            &times;
-          </button>
+          <button id="mobile-close-btn">&times;</button>
         </div>
 
-        <button class="board-btn active-board-btn mobile-board-btn">
+        <button class="board-btn active-board-btn">
           Launch Career
         </button>
 
-        <div class="theme-toggle-div mobile-theme-toggle">
-          <img src="./assets/icon-light-theme.svg" alt="" />
-          <label class="switch" aria-label="Toggle dark mode mobile">
-            <input type="checkbox" id="theme-toggle-mobile" />
-            <span class="slider round"></span>
-          </label>
-          <img src="./assets/icon-dark-theme.svg" alt="" />
+        <div class="theme-toggle-div">
+          <input type="checkbox" id="theme-toggle-mobile" />
         </div>
       </div>
     </div>
@@ -170,52 +127,35 @@
     <!-- EDIT MODAL -->
     <dialog id="task-modal">
       <div>
-        <div class="modal-header">
-          <h3 id="task-modal-heading">Task</h3>
+        <button id="close-modal-btn">&times;</button>
 
-          <button type="button" id="close-modal-btn" aria-label="Close modal">
-            &times;
-          </button>
-        </div>
+        <input id="task-title" />
+        <textarea id="task-desc"></textarea>
 
-        <label for="task-title">Title</label>
-        <input id="task-title" type="text" required />
-
-        <label for="task-desc">Description</label>
-        <textarea id="task-desc" rows="4"></textarea>
-
-        <label for="task-status">Status</label>
         <select id="task-status">
           <option value="todo">todo</option>
           <option value="doing">doing</option>
           <option value="done">done</option>
         </select>
 
-        <label for="task-priority">Priority</label>
         <select id="task-priority">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
 
-        <button id="save-task-btn">Save Changes</button>
-        <button id="delete-task-btn">Delete Task</button>
+        <button id="save-task-btn" class="submit-btn">Save Changes</button>
+        <button id="delete-task-btn" class="delete-btn">Delete Task</button>
       </div>
     </dialog>
 
     <!-- ADD TASK MODAL -->
     <dialog id="new-task-dialog">
       <form id="new-task-modal-window">
-        <div class="modal-header">
-          <h3>Add New Task</h3>
+        <button type="button" id="cancel-add-btn">&times;</button>
 
-          <button type="button" id="cancel-add-btn" aria-label="Close">
-            &times;
-          </button>
-        </div>
-
-        <input id="title-input" placeholder="Title" required />
-        <textarea id="desc-input" placeholder="Description"></textarea>
+        <input id="title-input" required />
+        <textarea id="desc-input"></textarea>
 
         <select id="select-status">
           <option value="todo">todo</option>
@@ -229,7 +169,7 @@
           <option value="low">Low</option>
         </select>
 
-        <button type="submit">Create Task</button>
+        <button type="submit" class="submit-btn">Create Task</button>
       </form>
     </dialog>
   </body>
